@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Uma carta entre girassóis</title>
+  <meta name="description" content="Um presente digital feito com carinho.">
+  <meta name="theme-color" content="#fbf3df">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Controle discreto de música (só toca após interação) -->
+  <button id="botao-musica" class="botao-musica" type="button" aria-pressed="false" aria-label="Tocar música" hidden>
+    <span class="icone-musica" aria-hidden="true"></span>
+  </button>
+  <audio id="musica" loop preload="none">
+    <source src="assets/music/musica-romantica.mp3" type="audio/mpeg">
+  </audio>
+
+  <main id="palco">
+
+    <!-- TELA 1 · O ENVELOPE -->
+    <section id="tela-envelope" class="tela ativa" aria-labelledby="titulo-envelope">
+      <h1 id="titulo-envelope" class="visualmente-oculto">Uma carta entre girassóis</h1>
+
+      <div class="envelope" id="envelope">
+        <div class="envelope-carta" aria-hidden="true"></div>
+        <div class="envelope-frente"></div>
+        <div class="envelope-aba"></div>
+        <img class="envelope-selo" src="assets/images/Sunflower.svg" alt="" width="64" height="64" data-svg>
+      </div>
+
+      <button id="botao-abrir" class="botao" type="button">Tenho uma cartinha para você</button>
+    </section>
+
+    <!-- TELA 2 · A CARTA -->
+    <section id="tela-carta" class="tela" aria-labelledby="titulo-carta" aria-hidden="true">
+      <article class="carta" id="carta">
+        <img class="canto canto-se" src="assets/images/sunflower-flower-svgrepo-com.svg" alt="" width="90" height="90" data-svg>
+        <img class="canto canto-id" src="assets/images/sunflower-flower-svgrepo-com.svg" alt="" width="90" height="90" data-svg>
+        <img class="canto canto-ie" src="assets/images/sunflower-flower-svgrepo-com.svg" alt="" width="90" height="90" data-svg>
+        <img class="canto canto-sd" src="assets/images/sunflower-flower-svgrepo-com.svg" alt="" width="90" height="90" data-svg>
+
+        <h2 id="titulo-carta" class="carta-titulo">Para você</h2>
+
+        <!--
+          ✏️ EDITE A CARTA AQUI
+          Cada <p> abaixo vira um parágrafo. Troque o texto à vontade
+          (você pode adicionar ou remover parágrafos).
+          Este é só um texto de exemplo: escreva com as suas palavras.
+        -->
+        <div id="texto-carta" class="carta-texto"></div>
+          <p>Meu bem,</p>
+          <p>Escrevi esta cartinha para te dizer, com calma e com carinho, o quanto você é especial para mim.</p>
+          <p>Os girassóis sempre procuram a luz. Eu encontrei a minha em você.</p>
+          <p>Com todo o meu carinho,</p>
+          <p class="assinatura">Weidsona</p>
+        </div>
+
+        <button id="botao-jardim" class="botao botao-carta" type="button" hidden>Ver o jardim</button>
+      </article>
+    </section>
+
+    <!-- TELA 3 · O JARDIM (e TELA 4 · mensagem final sobre ele) -->
+    <section id="tela-jardim" class="tela" aria-label="Um jardim de girassóis" aria-hidden="true">
+      <div class="ceu" aria-hidden="true">
+        <div class="sol"></div>
+      </div>
+      <div class="particulas" id="particulas" aria-hidden="true"></div>
+      <div class="jardim" id="jardim" aria-hidden="true"></div>
+      <div class="chao" aria-hidden="true"></div>
+
+      <div class="mensagem-final" id="mensagem-final" aria-live="polite">
+        <p class="mensagem-frase">
+          <!-- ✏️ Edite a mensagem final aqui -->
+          Assim como os girassóis seguem a luz, o meu coração te encontra em cada dia.
+          Obrigado por ser a minha felicidade.
+        </p>
+        <img class="mensagem-detalhe" src="assets/images/Sunflower.svg" alt="Um girassol" width="96" height="96" data-svg>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+/* ==========================================================
+   Uma carta entre girassóis — estilos
+   Mobile first. Paleta: girassol, creme, dourado, verde, marrom.
+   ========================================================== */
+
+:root {
+  --girassol: #f4b41a;
+  --dourado: #d9a441;
+  --creme: #fbf3df;
+  --branco-quente: #fffaf0;
+  --verde: #5f8a3c;
+  --verde-escuro: #3f6128;
+  --marrom: #8a6a47;
+  --marrom-claro: #c9a77c;
+  --texto: #4a3b2a;
+  --sombra-suave: 0 10px 30px rgba(120, 85, 30, 0.18);
+  --fonte-titulo: "Playfair Display", Georgia, serif;
+  --fonte-texto: "Poppins", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  font-family: var(--fonte-texto);
+  color: var(--texto);
+  background: var(--creme);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.visualmente-oculto {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+#palco { position: relative; width: 100%; height: 100dvh; }
+
+/* ---------- Telas ---------- */
+.tela {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 1.25rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity 1s ease, visibility 1s;
+}
+.tela.ativa { opacity: 1; visibility: visible; }
+
+#tela-envelope, #tela-carta {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(244, 180, 26, 0.12), transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(217, 164, 65, 0.14), transparent 45%),
+    var(--creme);
+}
+
+/* ---------- Botões ---------- */
+.botao {
+  font-family: var(--fonte-texto); font-size: 0.95rem; font-weight: 500;
+  letter-spacing: 0.02em; color: var(--texto);
+  background: linear-gradient(180deg, #ffd55a, var(--girassol));
+  border: 1px solid rgba(138, 106, 71, 0.35);
+  border-radius: 999px; padding: 0.85rem 1.8rem; cursor: pointer;
+  box-shadow: 0 6px 16px rgba(217, 164, 65, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.botao:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(217, 164, 65, 0.45); }
+.botao:focus-visible, .botao-musica:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; }
+.botao[hidden] { display: none; }
+
+/* ---------- Envelope ---------- */
+.envelope {
+  position: relative;
+  width: min(86vw, 360px); aspect-ratio: 3 / 2;
+  margin-bottom: 2.2rem;
+  animation: entrada-envelope 1.4s cubic-bezier(.2, .8, .2, 1) both;
+  filter: drop-shadow(var(--sombra-suave));
+}
+.envelope-frente, .envelope-aba, .envelope-carta { position: absolute; }
+
+.envelope-frente {
+  inset: 0; border-radius: 6px; z-index: 3;
+  background:
+    linear-gradient(to top right, transparent 49.6%, rgba(138,106,71,.16) 50%, transparent 50.6%) left / 50% 100% no-repeat,
+    linear-gradient(to top left,  transparent 49.6%, rgba(138,106,71,.16) 50%, transparent 50.6%) right / 50% 100% no-repeat,
+    linear-gradient(160deg, #f3e2bd, #e8d2a4);
+  border: 1px solid rgba(138, 106, 71, 0.28);
+}
+.envelope-aba {
+  left: 0; right: 0; top: 0; height: 55%; z-index: 4;
+  transform-origin: top center;
+  background: linear-gradient(180deg, #ecd9ae, #e2c994);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transition: transform 0.9s cubic-bezier(.5, 0, .2, 1), z-index 0s 0.45s;
+}
+.envelope-carta {
+  left: 7%; right: 7%; top: 8%; height: 84%; z-index: 2;
+  background: var(--branco-quente); border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  transition: transform 1.1s cubic-bezier(.3, .7, .2, 1) 0.7s, opacity 0.8s ease 1.4s;
+}
+.envelope-selo {
+  position: absolute; z-index: 5; left: 50%; top: 52%;
+  width: 17%; height: auto; transform: translate(-50%, -50%);
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.25));
+  transition: opacity 0.4s ease;
+}
+
+.envelope.aberto .envelope-aba { transform: rotateX(180deg); z-index: 1; }
+.envelope.aberto .envelope-carta { transform: translateY(-42%); opacity: 0; }
+.envelope.aberto .envelope-selo { opacity: 0; }
+
+@keyframes entrada-envelope {
+  from { opacity: 0; transform: translateY(24px) scale(.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Carta ---------- */
+.carta {
+  position: relative;
+  width: min(92vw, 560px); max-height: 92dvh; overflow-y: auto;
+  padding: clamp(2.6rem, 8vw, 3.6rem) clamp(1.6rem, 7vw, 3rem) 2rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(138,106,71,.025) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.7), transparent 60%),
+    var(--branco-quente);
+  border: 1px solid rgba(201, 167, 124, 0.55);
+  outline: 1px solid rgba(201, 167, 124, 0.35); outline-offset: -10px;
+  border-radius: 4px; box-shadow: var(--sombra-suave);
+  opacity: 0; transform: translateY(30px) rotate(-1deg);
+  transition: opacity 1.1s ease, transform 1.2s cubic-bezier(.2, .8, .2, 1);
+}
+#tela-carta.ativa .carta { opacity: 1; transform: none; }
+
+.carta-titulo {
+  font-family: var(--fonte-titulo); font-style: italic; font-weight: 500;
+  font-size: clamp(1.5rem, 6vw, 2rem); margin: 0 0 1.2rem; text-align: center; color: var(--marrom);
+}
+.carta-texto { font-family: var(--fonte-titulo); font-size: clamp(1.02rem, 4.2vw, 1.2rem); line-height: 1.75; }
+.carta-texto p { margin: 0 0 1rem; }
+.carta-texto .assinatura { font-style: italic; text-align: right; color: var(--marrom); }
+.carta-texto .letra { opacity: 0; transition: opacity .35s ease; }
+.carta-texto .letra.visivel { opacity: 1; }
+
+.canto { position: absolute; width: clamp(54px, 16vw, 84px); height: auto; opacity: .95; pointer-events: none; }
+.canto-se { top: -18px; left: -18px; transform: rotate(-20deg); }
+.canto-sd { top: -18px; right: -18px; transform: rotate(25deg) scaleX(-1); }
+.canto-ie { bottom: -18px; left: -18px; transform: rotate(20deg); }
+.canto-id { bottom: -18px; right: -18px; transform: rotate(-25deg) scaleX(-1); }
+
+.botao-carta { display: block; margin: 1.4rem auto 0; animation: surgir 1s ease both; }
+@keyframes surgir { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Jardim ---------- */
+#tela-jardim { padding: 0; justify-content: flex-end; overflow: hidden; }
+
+.ceu {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #cfe6f3 0%, #f7eed2 55%, #fbdd95 100%);
+}
+.sol {
+  position: absolute; top: 8%; right: 12%; width: clamp(110px, 26vw, 220px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 236, 160, .95), rgba(255, 214, 100, .35) 55%, transparent 72%);
+  animation: brilho 6s ease-in-out infinite alternate;
+}
+@keyframes brilho { from { transform: scale(1); opacity: .85; } to { transform: scale(1.08); opacity: 1; } }
+
+.chao {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 17%;
+  background: linear-gradient(180deg, #86a95a, var(--verde-escuro));
+  border-radius: 50% 50% 0 0 / 22% 22% 0 0;
+}
+.jardim { position: absolute; inset: 0; }
+
+.flor {
+  position: absolute; bottom: 8%; width: var(--tam); height: var(--alt);
+  transform-origin: bottom center;
+  animation: balanco var(--tempo-balanco) ease-in-out var(--atraso-balanco) infinite alternate;
+}
+.flor .caule {
+  position: absolute; left: 50%; bottom: 0; width: 5px; height: 100%; margin-left: -2.5px;
+  background: linear-gradient(90deg, #4d7a30, #6f9c46);
+  border-radius: 3px; transform-origin: bottom; transform: scaleY(0);
+}
+.flor .folha {
+  position: absolute; width: 38%; height: auto; bottom: 22%; opacity: 0;
+  transform-origin: bottom center;
+}
+.flor .folha.esq { right: 50%; transform: scaleX(-1) scale(0); }
+.flor .folha.dir { left: 50%; }
+.flor .cabeca {
+  position: absolute; left: 50%; top: 0; width: 100%; height: auto;
+  transform: translate(-50%, -50%) scale(0); opacity: 0;
+  filter: drop-shadow(0 4px 6px rgba(120, 80, 10, .25));
+}
+
+/* Crescimento (classe adicionada via JS com atraso por flor) */
+.flor.crescendo .caule  { transition: transform 2.6s cubic-bezier(.2, .8, .2, 1); transform: scaleY(1); }
+.flor.crescendo .cabeca { transition: transform 1.8s cubic-bezier(.3, 1.3, .4, 1) 1.8s, opacity 1.2s ease 1.8s; transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.flor.crescendo .folha  { transition: transform 1.4s ease 1.2s, opacity 1s ease 1.2s; opacity: 1; animation: folha-vento 5s ease-in-out 3s infinite alternate; }
+.flor.crescendo .folha.esq { transform: scaleX(-1) scale(1); }
+.flor.crescendo .folha.dir { transform: scale(1); }
+
+@keyframes balanco { from { transform: rotate(-2.2deg); } to { transform: rotate(2.2deg); } }
+@keyframes folha-vento { from { rotate: -4deg; } to { rotate: 5deg; } }
+
+/* Partículas luminosas */
+.particulas { position: absolute; inset: 0; pointer-events: none; }
+.particula {
+  position: absolute; bottom: -10px; width: var(--p); height: var(--p); border-radius: 50%;
+  background: radial-gradient(circle, #fff6c4, rgba(255, 214, 100, 0));
+  opacity: 0; animation: subir var(--dur) linear var(--atr) infinite;
+}
+@keyframes subir {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: .9; }
+  100% { transform: translate(var(--dx), -80vh); opacity: 0; }
+}
+
+/* Mensagem final */
+.mensagem-final {
+  position: absolute; top: 12%; left: 50%; transform: translateX(-50%) translateY(14px);
+  width: min(88vw, 520px); padding: 1.4rem 1.4rem 1.1rem; text-align: center;
+  background: rgba(255, 250, 240, 0.72); backdrop-filter: blur(6px);
+  border: 1px solid rgba(201, 167, 124, .5); border-radius: 10px; box-shadow: var(--sombra-suave);
+  opacity: 0; visibility: hidden; transition: opacity 2s ease, transform 2s ease, visibility 2s;
+}
+.mensagem-final.visivel { opacity: 1; visibility: visible; transform: translateX(-50%); }
+.mensagem-frase {
+  margin: 0 0 .6rem; font-family: var(--fonte-titulo); font-style: italic;
+  font-size: clamp(1.1rem, 4.6vw, 1.5rem); line-height: 1.55;
+}
+.mensagem-detalhe { width: clamp(64px, 18vw, 96px); height: auto; animation: giro-lento 40s linear infinite; }
+@keyframes giro-lento { to { transform: rotate(360deg); } }
+
+/* ---------- Música ---------- */
+.botao-musica {
+  position: fixed; z-index: 20; top: max(.8rem, env(safe-area-inset-top)); right: .8rem;
+  width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+  background: rgba(255, 250, 240, .85); border: 1px solid rgba(138, 106, 71, .35);
+  box-shadow: 0 3px 10px rgba(0,0,0,.12);
+}
+.botao-musica[hidden] { display: none; }
+.icone-musica { display: block; width: 100%; height: 100%; position: relative; }
+.icone-musica::before { /* ícone de "play" */
+  content: ""; position: absolute; left: 53%; top: 50%; transform: translate(-50%, -50%);
+  border-left: 12px solid var(--marrom); border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+}
+.botao-musica[aria-pressed="true"] .icone-musica::before { /* ícone de "pausa" */
+  left: 50%; width: 12px; height: 16px; border: 0;
+  border-left: 4px solid var(--marrom); border-right: 4px solid var(--marrom);
+}
+
+/* Imagem que não carregou: some sem deixar ícone quebrado */
+img[data-svg].sem-arquivo { visibility: hidden; }
+
+/* ---------- Telas maiores ---------- */
+@media (min-width: 768px) {
+  .botao { font-size: 1rem; }
+  .mensagem-final { top: 14%; }
+}
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .flor .caule { transform: scaleY(1); }
+  .flor .cabeca { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  .flor .folha { opacity: 1; }
+  .flor .folha.esq { transform: scaleX(-1); }
+  .particulas { display: none; }
+}
